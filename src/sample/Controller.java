@@ -5,19 +5,18 @@ package sample;
  */
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.io.*;
-import java.nio.file.StandardOpenOption;
-import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Controller {
 
@@ -27,7 +26,16 @@ public class Controller {
     @FXML
     private TextField forSearch;
 
+    @FXML
+    private Label forCount;
+
+    @FXML
+    private Button buttonForSearch;
+
     private java.nio.file.Path path;
+
+
+    final HashSet<Character> vowels = new HashSet<Character>(Arrays.asList('A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u'));
 
 
 
@@ -65,12 +73,10 @@ public class Controller {
     private void onSaveAs() throws IOException{
         FileChooser fileChooser = new FileChooser();
 
-        // Set extension filter
         FileChooser.ExtensionFilter extFilter =
-                new FileChooser.ExtensionFilter("*.txt)", "*.txt");
+                new FileChooser.ExtensionFilter("*.txt", "*.txt");
         fileChooser.getExtensionFilters().add(extFilter);
 
-        // Show save file dialog
         File file = fileChooser.showSaveDialog(null);
 
         if(file != null){
@@ -89,8 +95,26 @@ public class Controller {
 
 
     @FXML
-    private void onCount() {
+    private void onCountVowelAndSpec() {
+        String data = areaText.getText();
+        int n = data.length();
+        int vowel = 0;
+        int spec = 0;
+        for (int i = 0; i < n; ++i){
+            char cur = data.charAt(i);
+            if (Character.isDigit(cur)){
+                continue;
+            }
+            if (Character.isLetter(cur)){
+                if (vowels.contains(cur)){
+                    vowel++;
+                }
+                continue;
+            }
+            spec++;
+        }
 
+        forCount.setText("Vowels: " + Integer.toString(vowel) + "\nSpecial: " + Integer.toString(spec));
     }
 
     @FXML
@@ -100,6 +124,22 @@ public class Controller {
         alert.setTitle("About");
         alert.setContentText("Simple TextEditor (Valentino)");
         alert.show();
+    }
+
+
+    @FXML
+    private void onRegexSearch(){
+        String data = areaText.getText();
+        String res = "\n ========= regex search result =========\n";
+        Matcher matcher = Pattern.compile(forSearch.getText()).matcher(data);
+        while (matcher.find()){
+            int start = matcher.start();
+            int end = matcher.end();
+            res = res + data.substring(start,end);
+        }
+
+        res = res + "\n =========/ regex search result /=========";
+        areaText.setText(res);
     }
 
 }
