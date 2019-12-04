@@ -163,7 +163,7 @@ public class Controller {
 
         }
 
-        System.out.println(symb);
+//        System.out.println(symb);
 
 
 
