@@ -194,7 +194,7 @@ public class Controller {
 
         Stage primaryStage = new Stage();
 
-        primaryStage.setTitle("JavaFX BarChart (o7planning.org)");
+        primaryStage.setTitle("BarChart");
         Scene scene = new Scene(vbox, 400, 200);
 
         primaryStage.setScene(scene);
