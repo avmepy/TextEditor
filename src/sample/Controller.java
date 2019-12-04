@@ -4,18 +4,15 @@ package sample;
  * @author Valentyn Kofanov (https://github.com/avmepy)
  */
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import java.io.File;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.util.*;
 import java.io.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -23,7 +20,6 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.omg.PortableInterceptor.INACTIVE;
 
 
 public class Controller {
@@ -186,7 +182,7 @@ public class Controller {
 
         for (Map.Entry<Character, Integer> pair: symb.entrySet())
         {
-            System.out.println(pair.getKey() + " " + pair.getValue());
+
             dataSeries.getData().add(new XYChart.Data<String, Number>(pair.getKey().toString(), pair.getValue()));
         }
 
