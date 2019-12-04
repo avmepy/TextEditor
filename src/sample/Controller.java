@@ -4,19 +4,27 @@ package sample;
  * @author Valentyn Kofanov (https://github.com/avmepy)
  */
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
-
 import java.io.File;
 import java.lang.reflect.Array;
 import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.io.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import org.omg.PortableInterceptor.INACTIVE;
+
 
 public class Controller {
 
@@ -142,4 +150,62 @@ public class Controller {
         areaText.setText(res);
     }
 
+    public void onBar() {
+        String text = areaText.getText();
+
+        HashMap<Character, Integer> symb = new HashMap<Character, Integer>();
+        for (int i = 0; i < text.length(); ++i){
+
+            Character cur = text.charAt(i);
+
+            if (symb.containsKey(cur)){
+                symb.put(cur, symb.get(cur) + 1);
+            }
+            else{
+                symb.put(cur, 1);
+            }
+
+        }
+
+        System.out.println(symb);
+
+
+
+        CategoryAxis xAxis = new CategoryAxis();
+        xAxis.setLabel("symbols");
+
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel("number");
+
+        // Create a BarChart
+        BarChart<String, Number> barChart = new BarChart<String, Number>(xAxis, yAxis);
+
+        // Series 1 - Data of 2014
+        XYChart.Series<String, Number> dataSeries = new XYChart.Series<String, Number>();
+        dataSeries.setName("symbols");
+
+        for (Map.Entry<Character, Integer> pair: symb.entrySet())
+        {
+            System.out.println(pair.getKey() + " " + pair.getValue());
+            dataSeries.getData().add(new XYChart.Data<String, Number>(pair.getKey().toString(), pair.getValue()));
+        }
+
+        barChart.getData().add(dataSeries);
+
+        barChart.setTitle("frequency histogram");
+
+        VBox vbox = new VBox(barChart);
+
+        Stage primaryStage = new Stage();
+
+        primaryStage.setTitle("JavaFX BarChart (o7planning.org)");
+        Scene scene = new Scene(vbox, 400, 200);
+
+        primaryStage.setScene(scene);
+        primaryStage.setHeight(300);
+        primaryStage.setWidth(400);
+
+        primaryStage.show();
+
+    }
 }

@@ -24,6 +24,7 @@
 
             <Menu text="Edit">
                 <MenuItem onAction="#onCountVowelAndSpec" text="vowels and special number" />
+                <MenuItem onAction="#onBar" text="bar" />
 
             </Menu>
 
